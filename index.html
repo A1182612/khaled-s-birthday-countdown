@@ -1,94 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎂 My Birthday Countdown</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            background: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding-top: 100px;
-        }
+<title>🎂 My Birthday Countdown</title>
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
+<style>
 
-        #year {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #ffd700;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        #countdown {
-            font-size: 2rem;
-        }
-    </style>
+body{
+    overflow:hidden;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:radial-gradient(circle at center,#17002f,#000);
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
+}
+
+.stars{
+    position:fixed;
+    inset:0;
+    background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(#ffd700 1px, transparent 1px),
+        radial-gradient(#8ec5ff 1px, transparent 1px);
+    background-size:50px 50px,80px 80px,120px 120px;
+    animation:twinkle 6s infinite alternate;
+    z-index:-3;
+}
+
+@keyframes twinkle{
+    from{opacity:.5;}
+    to{opacity:1;}
+}
+
+.firework{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    box-shadow:
+        0 0 0 40px rgba(255,200,0,.2),
+        0 0 0 80px rgba(255,0,255,.15),
+        0 0 0 120px rgba(0,200,255,.1);
+    animation:boom 3s infinite;
+}
+
+.firework:nth-child(1){
+    top:15%;
+    left:15%;
+}
+
+.firework:nth-child(2){
+    top:20%;
+    right:10%;
+    animation-delay:1s;
+}
+
+.firework:nth-child(3){
+    bottom:15%;
+    left:10%;
+    animation-delay:2s;
+}
+
+.firework:nth-child(4){
+    bottom:25%;
+    right:15%;
+    animation-delay:1.5s;
+}
+
+@keyframes boom{
+    0%{
+        transform:scale(.2);
+        opacity:0;
+    }
+    30%{
+        opacity:1;
+    }
+    100%{
+        transform:scale(1.3);
+        opacity:0;
+    }
+}
+
+h1{
+    font-size:4rem;
+    margin-bottom:20px;
+    text-shadow:
+        0 0 10px #ff66ff,
+        0 0 20px #ff66ff,
+        0 0 40px #ff66ff;
+}
+
+#year{
+    font-size:1.4rem;
+    color:#ffe082;
+    margin-bottom:50px;
+}
+
+.timer{
+    display:flex;
+    gap:50px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.box{
+    min-width:150px;
+}
+
+.number{
+    font-size:5rem;
+    font-weight:bold;
+    text-shadow:0 0 20px currentColor;
+}
+
+.days{color:#ffd166;}
+.hours{color:#ff6ec7;}
+.minutes{color:#8f7cff;}
+.seconds{color:#9cffd0;}
+
+.label{
+    margin-top:10px;
+    font-size:1.2rem;
+    letter-spacing:2px;
+}
+
+.message{
+    margin-top:60px;
+    font-size:2rem;
+    color:#ffd166;
+    text-shadow:0 0 15px #ffd166;
+}
+
+.corner{
+    position:fixed;
+    width:80px;
+    z-index:1;
+    pointer-events:none;
+}
+
+.top-left{
+    top:10px;
+    left:10px;
+}
+
+.top-right{
+    top:10px;
+    right:10px;
+    transform:scaleX(-1);
+}
+
+.bottom-left{
+    bottom:10px;
+    left:10px;
+}
+
+.bottom-right{
+    bottom:10px;
+    right:10px;
+    transform:scaleX(-1);
+}
+
+</style>
 </head>
+
 <body>
 
-    <h1>🎂 My Birthday Countdown 🎉🎈</h1>
+<div class="stars"></div>
 
-    <div id="year"></div>
-    <div id="countdown"></div>
+<div class="firework"></div>
+<div class="firework"></div>
+<div class="firework"></div>
+<div class="firework"></div>
 
-    <script>
-        const birthMonth = 11; // November
-        const birthDay = 8;
+<h1>🎂 My Birthday Countdown 🎉🎈</h1>
 
-        function getNextBirthday() {
-            const now = new Date();
+<div id="year"></div>
 
-            let birthday = new Date(
-                now.getFullYear(),
-                birthMonth - 1,
-                birthDay,
-                0, 0, 0
-            );
+<div class="timer">
 
-            if (now >= birthday) {
-                birthday.setFullYear(birthday.getFullYear() + 1);
-            }
+    <div class="box">
+        <div class="number days" id="days">0</div>
+        <div class="label">DAYS</div>
+    </div>
 
-            return birthday;
-        }
+    <div class="box">
+        <div class="number hours" id="hours">0</div>
+        <div class="label">HOURS</div>
+    </div>
 
-        function updateCountdown() {
-            const now = new Date();
-            const birthday = getNextBirthday();
+    <div class="box">
+        <div class="number minutes" id="minutes">0</div>
+        <div class="label">MINUTES</div>
+    </div>
 
-            const diff = birthday - now;
+    <div class="box">
+        <div class="number seconds" id="seconds">0</div>
+        <div class="label">SECONDS</div>
+    </div>
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
+</div>
 
-            document.getElementById("year").textContent =
-                `birthday in November 8, ${birthday.getFullYear()}`;
+<div class="message">
+    Can't wait for my special day! 💖
+</div>
 
-            document.getElementById("countdown").textContent =
-                `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
-
-            document.title =
-                `${days}d ${hours}h ${minutes}m | Birthday Countdown`;
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    </script>
-<audio controls loop>
+<audio autoplay loop hidden>
     <source src="angrybird.mp3" type="audio/mpeg">
 </audio>
-    
+
+<script>
+
+const birthMonth = 11;
+const birthDay = 8;
+
+function getNextBirthday(){
+
+    const now = new Date();
+
+    let birthday = new Date(
+        now.getFullYear(),
+        birthMonth - 1,
+        birthDay
+    );
+
+    if(now >= birthday){
+        birthday.setFullYear(
+            birthday.getFullYear() + 1
+        );
+    }
+
+    return birthday;
+}
+
+function updateCountdown(){
+
+    const now = new Date();
+    const birthday = getNextBirthday();
+
+    const diff = birthday - now;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff/(1000*60*60))%24);
+    const minutes = Math.floor((diff/(1000*60))%60);
+    const seconds = Math.floor((diff/1000)%60);
+
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
+
+    document.getElementById("year").textContent =
+        `Birthday on November 8, ${birthday.getFullYear()} ✨`;
+
+    document.title =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+</script>
+<video class="corner top-left" autoplay loop muted playsinline>
+    <source src="jumpingcat.mp4" type="video/mp4">
+</video>
+
+<video class="corner top-right" autoplay loop muted playsinline>
+    <source src="jumpingcat.mp4" type="video/mp4">
+</video>
+
+<video class="corner bottom-left" autoplay loop muted playsinline>
+    <source src="jumpingcat.mp4" type="video/mp4">
+</video>
+
+<video class="corner bottom-right" autoplay loop muted playsinline>
+    <source src="jumpingcat.mp4" type="video/mp4">
+</video>
 </body>
 </html>
-
-
-
