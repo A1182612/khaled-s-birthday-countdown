@@ -1,46 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Birthday Countdown</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 My Birthday Countdown</title>
+
     <style>
         body {
             background: #111;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 100px;
+            margin: 0;
+            padding-top: 100px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        #year {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffd700;
         }
 
         #countdown {
             font-size: 2rem;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<h1>    🎂 My Birthday Countdown🎉🎈</h1>
-<div id="countdown"></div>
+    <h1>🎂 My Birthday Countdown 🎉🎈</h1>
 
-<script>
-const birthday = new Date("2026-10-08T00:00:00");
+    <div id="year"></div>
+    <div id="countdown"></div>
 
-function updateCountdown() {
-    const now = new Date();
-    const diff = birthday - now;
+    <script>
+        const birthMonth = 11; // November
+        const birthDay = 8;
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
+        function getNextBirthday() {
+            const now = new Date();
 
-    document.getElementById("countdown").innerHTML =
-        `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
-}
+            let birthday = new Date(
+                now.getFullYear(),
+                birthMonth - 1,
+                birthDay,
+                0, 0, 0
+            );
 
-setInterval(updateCountdown, 1000);
-updateCountdown();
-</script>
+            if (now >= birthday) {
+                birthday.setFullYear(birthday.getFullYear() + 1);
+            }
+
+            return birthday;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const birthday = getNextBirthday();
+
+            const diff = birthday - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById("year").textContent =
+                `Counting down to November 8, ${birthday.getFullYear()}`;
+
+            document.getElementById("countdown").textContent =
+                `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+
+            document.title =
+                `${days}d ${hours}h ${minutes}m | Birthday Countdown`;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
 
 </body>
 </html>
